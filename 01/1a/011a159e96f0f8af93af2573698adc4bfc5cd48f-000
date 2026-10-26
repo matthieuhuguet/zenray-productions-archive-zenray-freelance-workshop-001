@@ -1,0 +1,164 @@
+# New job board sources for ZenRay Freelance (26 October 2026)
+
+Every row below was checked by an HTTP request on 26 October 2026 (Python urllib, User-Agent Mozilla/5.0). "Open jobs" is the count returned by the public API at that moment; "TA/3D" counts titles matching `technical art|tech art|houdini|vfx|3d|environment|unreal|shader|lighting|material|texture|character art|prop`. None of these slugs is in the already configured list. False positives (same slug, unrelated company: amplitude, arena, ghost, jellyfish, mercury, moon, paradox, factory, focus, peak, mill, nexus, lens, lightspeed, promethean, rise, buf and mpc on Personio) were checked by reading the job titles and excluded.
+
+Endpoint notes (26 October 2026):
+- Lever has a separate EU region: studios on `jobs.eu.lever.co` answer only on `https://api.eu.lever.co/v0/postings/<slug>?mode=json` (404 on the US API). The crawler needs a `region` field.
+- Teamtailor: `https://<slug>.teamtailor.com/jobs.rss` (RSS, one `<item>` per job).
+- Personio: `https://<slug>.jobs.personio.de/xml` (one `<position>` per job).
+- BambooHR: `https://<slug>.bamboohr.com/careers/list` (JSON `result[]`, `jobOpeningName`). Returns 200 even for unknown slugs, so trust only non-empty results.
+- SmartRecruiters also returns 200 with 0 jobs for any slug: only non-empty boards are listed.
+- Workable widget API rate-limits hard (429 after about 50 calls); crawl it slowly (one account every 10 s or more).
+
+## Verified ATS boards
+
+| studio | country | ATS | slug | endpoint | HTTP status | open jobs | relevant TA/3D jobs |
+|---|---|---|---|---|---|---|---|
+| Sperasoft (outsourcing, Keywords group) | Poland / Serbia / remote | Workable | sperasoft | https://apply.workable.com/api/v1/widget/accounts/sperasoft | 200 | 79 | 32 |
+| Keywords Studios (SmartRecruiters board, game art services) | global | SmartRecruiters | keywordsstudios | https://api.smartrecruiters.com/v1/companies/keywordsstudios/postings | 200 | 34 | 13 |
+| Rebellion (was pending) | UK | Workable | rebellion | https://apply.workable.com/api/v1/widget/accounts/rebellion | 200 | 37 | 11 |
+| Streamline Studios (outsourcing, UE) | Netherlands / Malaysia / remote | BambooHR | streamlinestudios | https://streamlinestudios.bamboohr.com/careers/list | 200 | 18 | 9 |
+| Voodoo (was pending) | France | Ashby | voodoo | https://api.ashbyhq.com/posting-api/job-board/voodoo | 200 | 116 | 5 |
+| Framestore | UK / global VFX | Recruitee | framestore | https://framestore.recruitee.com/api/offers/ | 200 | 37 | 4 |
+| Embark Studios | Sweden | Teamtailor | embarkstudios | https://embarkstudios.teamtailor.com/jobs.rss | 200 | 19 | 4 |
+| Meshy (3D generative tools) | USA / China | Ashby | meshy | https://api.ashbyhq.com/posting-api/job-board/meshy | 200 | 21 | 3 |
+| Aesir Interactive | Germany | Personio | aesir | https://aesir.jobs.personio.de/xml | 200 | 11 | 3 |
+| Asobo Studio | France | Lever EU | asobostudio | https://api.eu.lever.co/v0/postings/asobostudio?mode=json | 200 | 6 | 2 |
+| Peak Games (Zynga) | Turkey | Lever | peakgames | https://api.lever.co/v0/postings/peakgames?mode=json | 200 | 19 | 2 |
+| Ankama | France | Teamtailor | ankama | https://ankama.teamtailor.com/jobs.rss | 200 | 10 | 2 |
+| World Labs (3D world models) | USA | Ashby | worldlabs | https://api.ashbyhq.com/posting-api/job-board/worldlabs | 200 | 8 | 2 |
+| Behaviour Interactive | Canada / Netherlands | Lever | bhvr | https://api.lever.co/v0/postings/bhvr?mode=json | 200 | 26 | 1 |
+| Frontier Developments | UK | Lever EU | frontier | https://api.eu.lever.co/v0/postings/frontier?mode=json | 200 | 6 | 1 |
+| Sharkmob | Sweden / UK | Teamtailor | sharkmob | https://sharkmob.teamtailor.com/jobs.rss | 200 | 7 | 1 |
+| Fatshark | Sweden | Teamtailor | fatshark | https://fatshark.teamtailor.com/jobs.rss | 200 | 2 | 1 |
+| Deck13 Interactive | Germany | Personio | deck13 | https://deck13.jobs.personio.de/xml | 200 | 4 | 1 |
+| Hypixel Studios | UK / remote | BambooHR | hypixel | https://hypixel.bamboohr.com/careers/list | 200 | 7 | 1 |
+| Weta FX (ex Weta Digital) | New Zealand | SmartRecruiters | wetadigital | https://api.smartrecruiters.com/v1/companies/wetadigital/postings | 200 | 1 | 1 |
+| IO Interactive | Denmark / UK / Spain | Teamtailor | ioi | https://ioi.teamtailor.com/jobs.rss | 200 | 7 | 0 |
+| InnoGames | Germany | Lever EU | innogames | https://api.eu.lever.co/v0/postings/innogames?mode=json | 200 | 6 | 0 |
+| Quantic Dream | France | Lever EU | quanticdream | https://api.eu.lever.co/v0/postings/quanticdream?mode=json | 200 | 1 | 0 |
+| Nordeus | Serbia | Greenhouse | nordeus | https://boards-api.greenhouse.io/v1/boards/nordeus/jobs | 200 | 11 | 0 |
+| Huuuge Games | Poland | Recruitee | huuuge | https://huuuge.recruitee.com/api/offers/ | 200 | 7 | 0 |
+| Stellar Entertainment | UK / Netherlands | Ashby | stellarentertainment | https://api.ashbyhq.com/posting-api/job-board/stellarentertainment | 200 | 6 | 0 |
+| ArenaNet (contract Technical Motion Designer open) | USA / remote | Ashby | arenanet | https://api.ashbyhq.com/posting-api/job-board/arenanet | 200 | 5 | 0 |
+| Warhorse Studios | Czechia | Breezy | warhorsestudios | https://warhorsestudios.breezy.hr/json | 200 | 4 | 0 |
+| Raw Fury | Sweden | Teamtailor | rawfury | https://rawfury.teamtailor.com/jobs.rss | 200 | 3 | 0 |
+| Unknown Worlds | USA / remote | Greenhouse | unknownworlds | https://boards-api.greenhouse.io/v1/boards/unknownworlds/jobs | 200 | 2 | 0 |
+| Blur Studio | USA | Greenhouse | blurstudio | https://boards-api.greenhouse.io/v1/boards/blurstudio/jobs | 200 | 2 | 0 |
+| Ghost VFX | Denmark / UK / India | SmartRecruiters | ghostvfx | https://api.smartrecruiters.com/v1/companies/ghostvfx/postings | 200 | 2 | 0 |
+| Tripwire Interactive | USA | Greenhouse | tripwireinteractive | https://boards-api.greenhouse.io/v1/boards/tripwireinteractive/jobs | 200 | 1 | 0 |
+| Dream Games | Turkey | Lever | dreamgames | https://api.lever.co/v0/postings/dreamgames?mode=json | 200 | 17 | 0 |
+| Theorycraft Games | USA / remote | Lever | theorycraftgames | https://api.lever.co/v0/postings/theorycraftgames?mode=json | 200 | 1 | 0 |
+| Sloclap | France | Teamtailor | sloclap | https://sloclap.teamtailor.com/jobs.rss | 200 | 1 | 0 |
+| CI Games | Poland | Teamtailor | cigames | https://cigames.teamtailor.com/jobs.rss | 200 | 1 | 0 |
+| Coffee Stain | Sweden | Teamtailor | coffeestainstudios | https://coffeestainstudios.teamtailor.com/jobs.rss | 200 | 1 | 0 |
+| Goodbye Kansas | Sweden | Teamtailor | goodbyekansas | https://goodbyekansas.teamtailor.com/jobs.rss | 200 | 1 | 0 |
+| Goodgame Studios | Germany | Teamtailor | goodgamestudios | https://goodgamestudios.teamtailor.com/jobs.rss | 200 | 1 | 0 |
+| Liquid Swords | Sweden | Teamtailor | liquidswords | https://liquidswords.teamtailor.com/jobs.rss | 200 | 1 | 0 |
+| Starbreeze | Sweden | Teamtailor | starbreeze | https://starbreeze.teamtailor.com/jobs.rss | 200 | 1 | 0 |
+| KING Art Games | Germany | Personio | king-art-gmbh | https://king-art-gmbh.jobs.personio.de/xml | 200 | 1 | 0 |
+| Trixter (VFX) | Germany | Personio | trixter | https://trixter.jobs.personio.de/xml | 200 | 1 | 0 |
+
+Total: 44 verified boards (Teamtailor 13, Lever 7 of which 4 EU, Ashby 5, Greenhouse 4, Personio 4, SmartRecruiters 3, Recruitee 2, Workable 2, BambooHR 2, Breezy 1).
+
+### Found on careers pages, API not confirmed (Workable 429 at check time, 26 October 2026)
+
+| studio | country | ATS | slug | endpoint | status |
+|---|---|---|---|---|---|
+| Pixomondo | Germany / Canada / global | Workable | pxo | https://apply.workable.com/api/v1/widget/accounts/pxo | 429, retry slowly |
+| Homa Games | France | Workable | homa-games | https://apply.workable.com/api/v1/widget/accounts/homa-games | 429, retry slowly |
+| Lakshya Digital (art outsourcing) | India | Workable | (job links only, slug unknown) | apply.workable.com/j/... | slug to find |
+| DNEG | UK / global | Jobvite | double-negative-visual-effects | https://jobs.jobvite.com/double-negative-visual-effects/ | HTML, no simple JSON |
+| Paradox Interactive | Sweden | Teamtailor (custom domain career.paradoxplaza.com) | unknown | https://career.paradoxplaza.com/jobs | slug to find |
+| Bloober Team | Poland | Recruitee | blooberteam | https://blooberteam.recruitee.com/api/offers/ | 200 but 0 jobs today |
+| Lucid Games | UK | Recruitee | lucidgames | https://lucidgames.recruitee.com/api/offers/ | 200 but 0 jobs today |
+
+## Manual links (freelance oriented)
+
+| place | link | note |
+|---|---|---|
+| Malt | https://www.malt.fr | French freelance marketplace; profile "Technical Artist Houdini Unreal", clients come inbound |
+| ArtStation Jobs | https://www.artstation.com/jobs?keywords=technical%20artist | filter Contract + Remote |
+| 80 Level Jobs | https://80.lv/jobs | game art and tech art listings |
+| Upwork | https://www.upwork.com/freelance-jobs/houdini/ | Houdini, Unreal and Substance categories; small but frequent gigs |
+| Polycount Jobs forum | https://polycount.com/categories/jobs | freelance and contract threads |
+| tech-artists.org Jobs | https://tech-artists.org/c/jobs | dedicated tech art job board |
+| SideFX forum Jobs | https://www.sidefx.com/forum/50/ | Houdini specific job postings |
+| Unreal Slackers Discord | https://unrealslackers.org | #job-postings and #looking-for-work channels |
+| LinkedIn saved search | https://www.linkedin.com/jobs/search/?keywords=technical%20artist%20houdini&f_JT=C&f_WT=2 | contract plus remote filter |
+| Working Not Working / Behance Jobs | https://www.behance.net/joblist | freelance creative listings, motion and 3D |
+
+## Config snippet
+
+```json
+{
+  "greenhouse": {"boards": [
+    {"name": "Nordeus", "slug": "nordeus"},
+    {"name": "Unknown Worlds", "slug": "unknownworlds"},
+    {"name": "Blur Studio", "slug": "blurstudio"},
+    {"name": "Tripwire Interactive", "slug": "tripwireinteractive"}
+  ]},
+  "lever": {"boards": [
+    {"name": "Behaviour Interactive", "slug": "bhvr"},
+    {"name": "Peak Games", "slug": "peakgames"},
+    {"name": "Dream Games", "slug": "dreamgames"},
+    {"name": "Theorycraft Games", "slug": "theorycraftgames"},
+    {"name": "Asobo Studio", "slug": "asobostudio", "region": "eu"},
+    {"name": "Frontier Developments", "slug": "frontier", "region": "eu"},
+    {"name": "InnoGames", "slug": "innogames", "region": "eu"},
+    {"name": "Quantic Dream", "slug": "quanticdream", "region": "eu"}
+  ]},
+  "ashby": {"boards": [
+    {"name": "Voodoo", "slug": "voodoo"},
+    {"name": "Meshy", "slug": "meshy"},
+    {"name": "World Labs", "slug": "worldlabs"},
+    {"name": "Stellar Entertainment", "slug": "stellarentertainment"},
+    {"name": "ArenaNet", "slug": "arenanet"}
+  ]},
+  "smartrecruiters": {"boards": [
+    {"name": "Keywords Studios", "slug": "keywordsstudios"},
+    {"name": "Weta FX", "slug": "wetadigital"},
+    {"name": "Ghost VFX", "slug": "ghostvfx"}
+  ]},
+  "recruitee": {"boards": [
+    {"name": "Framestore", "slug": "framestore"},
+    {"name": "Huuuge Games", "slug": "huuuge"},
+    {"name": "Bloober Team", "slug": "blooberteam"},
+    {"name": "Lucid Games", "slug": "lucidgames"}
+  ]},
+  "workable": {"boards": [
+    {"name": "Sperasoft", "slug": "sperasoft"},
+    {"name": "Rebellion", "slug": "rebellion"},
+    {"name": "Pixomondo", "slug": "pxo"},
+    {"name": "Homa Games", "slug": "homa-games"}
+  ]},
+  "teamtailor": {"boards": [
+    {"name": "Embark Studios", "slug": "embarkstudios"},
+    {"name": "Sharkmob", "slug": "sharkmob"},
+    {"name": "Ankama", "slug": "ankama"},
+    {"name": "IO Interactive", "slug": "ioi"},
+    {"name": "Fatshark", "slug": "fatshark"},
+    {"name": "Raw Fury", "slug": "rawfury"},
+    {"name": "Sloclap", "slug": "sloclap"},
+    {"name": "CI Games", "slug": "cigames"},
+    {"name": "Coffee Stain", "slug": "coffeestainstudios"},
+    {"name": "Goodbye Kansas", "slug": "goodbyekansas"},
+    {"name": "Goodgame Studios", "slug": "goodgamestudios"},
+    {"name": "Liquid Swords", "slug": "liquidswords"},
+    {"name": "Starbreeze", "slug": "starbreeze"}
+  ]},
+  "personio": {"boards": [
+    {"name": "Aesir Interactive", "slug": "aesir"},
+    {"name": "Deck13 Interactive", "slug": "deck13"},
+    {"name": "KING Art Games", "slug": "king-art-gmbh"},
+    {"name": "Trixter", "slug": "trixter"}
+  ]},
+  "bamboohr": {"boards": [
+    {"name": "Streamline Studios", "slug": "streamlinestudios"},
+    {"name": "Hypixel Studios", "slug": "hypixel"}
+  ]},
+  "breezy": {"boards": [
+    {"name": "Warhorse Studios", "slug": "warhorsestudios"}
+  ]}
+}
+```

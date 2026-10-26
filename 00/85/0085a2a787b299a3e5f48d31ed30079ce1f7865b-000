@@ -1,0 +1,31 @@
+# Probe ATS boards; 26 October 2026
+import json,sys,re,urllib.request,concurrent.futures as cf
+REL=re.compile(r'technical art|tech art|houdini|vfx|fx artist|3d|environment art|unreal|shader|procedural|lighting|material|texture|substance|character art|prop art',re.I)
+EP={'greenhouse':'https://boards-api.greenhouse.io/v1/boards/{}/jobs','lever':'https://api.lever.co/v0/postings/{}?mode=json','levereu':'https://api.eu.lever.co/v0/postings/{}?mode=json','greenhouseeu':'https://boards-api.eu.greenhouse.io/v1/boards/{}/jobs','ashby':'https://api.ashbyhq.com/posting-api/job-board/{}','smartrecruiters':'https://api.smartrecruiters.com/v1/companies/{}/postings?limit=100','recruitee':'https://{}.recruitee.com/api/offers/','workable':'https://apply.workable.com/api/v1/widget/accounts/{}','personio':'https://{}.jobs.personio.de/xml','teamtailor':'https://{}.teamtailor.com/jobs.rss','bamboohr':'https://{}.bamboohr.com/careers/list','breezy':'https://{}.breezy.hr/json'}
+def titles(ats,d,raw):
+    if ats in('greenhouse','greenhouseeu'): return [j['title'] for j in d.get('jobs',[])]
+    if ats in('lever','levereu'): return [j['text'] for j in d] if isinstance(d,list) else []
+    if ats=='ashby': return [j['title'] for j in d.get('jobs',[])]
+    if ats=='smartrecruiters': return [j['name'] for j in d.get('content',[])],d.get('totalFound',0)
+    if ats=='recruitee': return [j['title'] for j in d.get('offers',[])]
+    if ats=='workable': return [j['title'] for j in d.get('jobs',[])]
+    if ats=='bamboohr': return [j['jobOpeningName'] for j in d.get('result',[])]
+    if ats=='breezy': return [j['name'] for j in d] if isinstance(d,list) else []
+def probe(a):
+    ats,slug=a;u=EP[ats].format(slug)
+    try:
+        r=urllib.request.urlopen(urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0'}),timeout=20);raw=r.read();st=r.status
+    except urllib.error.HTTPError as e: return ats,slug,u,e.code,0,0
+    except Exception as e: return ats,slug,u,'ERR',0,0
+    if ats in('personio','teamtailor'):
+        s=raw.decode('utf8','ignore')
+        t=re.findall(r'<position>.*?<name>(.*?)</name>',s,re.S) if ats=='personio' else re.findall(r'<item>.*?<title>(.*?)</title>',s,re.S)
+        return ats,slug,u,st,len(t),sum(bool(REL.search(x)) for x in t)
+    try:d=json.loads(raw)
+    except: return ats,slug,u,st,0,0
+    t=titles(ats,d,raw);tot=None
+    if isinstance(t,tuple): t,tot=t
+    return ats,slug,u,st,tot if tot else len(t),sum(bool(REL.search(x)) for x in t)
+c=[l.split() for l in open(sys.argv[1]) if l.strip()]
+with cf.ThreadPoolExecutor(32) as ex:
+    for r in ex.map(probe,c): print(*r,sep='\t')
