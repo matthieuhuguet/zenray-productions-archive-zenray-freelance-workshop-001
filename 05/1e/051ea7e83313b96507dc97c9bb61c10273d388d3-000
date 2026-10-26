@@ -1,0 +1,54 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZenRay Freelance, trois designs</title>
+<!-- 26 October 2026: three proposals for a readable ZenRay Freelance. One rule shared by all three: a colour means a STATUS and nothing else; the score is a number. -->
+<style>
+:root{
+ --font-ui:'InterVariable','Inter','Hiragino Sans W4',sans-serif; --font-num:'AnthropicSerif','Hiragino Mincho ProN W3',serif;
+ --font-title:'GT Sectra LCG','GT-Sectra-LCGV-Regular','AnthropicSerif',serif; --title-style:italic; --font-mono:'AnthropicMono',ui-monospace,monospace;
+ --bg:#f6f5f2; --panel:#ffffff; --line:#e4e1da; --text:#1d1c1a; --muted:#6c6862;
+ /* status colours: the ONLY coloured things on the page (26 October 2026) */
+ --st-to_contact:#8a867f; --st-contacted:#2f5bd3; --st-replied:#1f8a6b; --st-declined:#b8336a; --st-deprecated:#c9c5bd;
+ --radius:12px; --gap:12px; --ui-size:14px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#171716;--panel:#222120;--line:#34322f;--text:#ecebe8;--muted:#9a968f;--st-deprecated:#4a4744}}
+:root[data-theme=dark]{--bg:#171716;--panel:#222120;--line:#34322f;--text:#ecebe8;--muted:#9a968f;--st-deprecated:#4a4744}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font:400 var(--ui-size)/1.45 var(--font-ui);padding:24px 16px 80px}
+h1,h2{font-family:var(--font-title);font-style:var(--title-style);font-weight:400;margin:0 0 6px} h1{font-size:30px} h2{font-size:22px;margin-top:48px}
+.num{font-family:var(--font-num);font-style:normal} .mono{font-family:var(--font-mono);font-size:12px}
+.wrap{max-width:1180px;margin:0 auto} .lead{color:var(--muted);max-width:760px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 9px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:99px;display:inline-block}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:12px}
+/* A pipeline */
+.cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap)} .col h3{font:500 13px var(--font-ui);margin:0 0 8px;display:flex;justify-content:space-between}
+.col .card{margin-bottom:8px;border-left:4px solid var(--c)} .studio{font-weight:500} .role{color:var(--muted);font-size:13px}
+/* B table */
+table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+td,th{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;font-size:13px} th{font-weight:500;color:var(--muted);font-size:12px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.tabs .pill.on{background:var(--text);color:var(--bg)}
+/* C lot */
+.bar{height:10px;border-radius:99px;background:var(--line);overflow:hidden;margin:8px 0 14px}.bar i{display:block;height:100%;background:var(--st-contacted)}
+.lot{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:var(--gap)}
+.lot .card{display:flex;flex-direction:column;gap:6px}.idx{font:600 18px var(--font-mono)} .row{display:flex;gap:8px;align-items:center;justify-content:space-between}
+button{font:500 13px var(--font-ui);border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:8px;padding:6px 10px;cursor:pointer}
+.stats{display:flex;gap:18px;flex-wrap:wrap}.stats b{font:400 26px var(--font-num);display:block}
+@media (max-width:760px){.cols{grid-template-columns:1fr 1fr} .hide-s{display:none}}
+</style></head><body><div class="wrap">
+<h1>ZenRay Freelance, trois designs</h1>
+<p class="lead">Règle commune aux trois propositions : <b>une couleur veut dire un statut, et rien d'autre</b> (gris à contacter, bleu contacté, vert répondu, rose refusé). Le score devient un nombre, et l'ancien vert « très pertinent / lettre prête » disparaît. Chaque offre ouverte porte son index <span class="mono">ZR-0001</span>, le même que dans l'onglet.</p>
+<div id="A"></div><div id="B"></div><div id="C"></div></div>
+<script>
+const D={"rows": [{"idx": "ZR-0009", "name": "Blackbird Interactive", "role": "VFX Artist (3-month contract)", "status": "to_contact", "score": 61, "country": "CA"}, {"idx": "ZR-0007", "name": "Ubisoft", "role": "UI Technical Artist (March of Giants)", "status": "to_contact", "score": 64, "country": "ca"}, {"idx": "ZR-0005", "name": "Larian Studios", "role": "Environment Artist", "status": "to_contact", "score": 72, "country": "MY"}, {"idx": "ZR-0008", "name": "Moon Active", "role": "Level Designer", "status": "to_contact", "score": 62, "country": "UK"}, {"idx": "ZR-0006", "name": "Scopely", "role": "Intern-Technical Artist", "status": "to_contact", "score": 68, "country": ""}, {"idx": "ZR-0002", "name": "Ubisoft", "role": "Junior Technical Artist - Rainbow Six  Siege", "status": "to_contact", "score": 78, "country": "es"}, {"idx": "ZR-0010", "name": "Ubisoft Montreal", "role": "Artiste technique sénior·e - Personnages (Unreal)", "status": "to_contact", "score": 56, "country": ""}, {"idx": "ZR-0001", "name": "People Can Fly", "role": "Artiste technique / Technical Artist", "status": "to_contact", "score": 89, "country": "ca"}, {"idx": "ZR-0004", "name": "Crystal Dynamics", "role": "Technical Artist, Environment Intern [Spring 2027]", "status": "to_contact", "score": 75, "country": ""}, {"idx": "ZR-0003", "name": "Crystal Dynamics", "role": "Technical Artist, Character Optimization Intern [Spring 2027]", "status": "to_contact", "score": 75, "country": ""}, {"idx": "", "name": "ProjProd", "role": "Unreal Engine Trainer (16 Nov - 4 Dec 2026)", "status": "contacted", "score": 88, "country": ""}, {"idx": "", "name": "Genius Game FZCO", "role": "Level Designer - UE5 - 100% Télétravail", "status": "contacted", "score": 58, "country": "Non précisé"}, {"idx": "", "name": "Drama Studios", "role": "Environment Technical Artist", "status": "contacted", "score": 84, "country": "FR"}, {"idx": "", "name": "Mattéo Martinez", "role": "Tech Art", "status": "replied", "score": 0, "country": ""}, {"idx": "", "name": "Myriam Martins", "role": "Recruiter", "status": "declined", "score": 0, "country": ""}, {"idx": "", "name": "Asobo Studio", "role": "Level Designer", "status": "declined", "score": 0, "country": ""}, {"idx": "", "name": "Voodoo", "role": "Technical Artist (AI), Portfolio Games Team, Freelance", "status": "declined", "score": 67, "country": "DE"}, {"idx": "", "name": "Keywords Studios", "role": "Technical Artist", "status": "to_contact", "score": 86, "country": "Malaysia"}, {"idx": "", "name": "People can Fly Studio", "role": "Artiste technique / Technical Artist", "status": "to_contact", "score": 85, "country": ""}, {"idx": "", "name": "Electronic Arts", "role": "Technical Artist Intern (Vancouver - Summer 2027 - 8-months - Undergraduate - Sports Tech)", "status": "to_contact", "score": 80, "country": "CA"}, {"idx": "", "name": "Keywords Studios", "role": "Vivier de candidatures : Technical Artist - Talent Pool (2026 Opportunities)", "status": "to_contact", "score": 79, "country": "Mexico"}, {"idx": "", "name": "Lakshya Digital", "role": "VFX Artist Reviewer", "status": "to_contact", "score": 79, "country": "United States"}, {"idx": "", "name": "Framestore VR Studio", "role": "Houdini Lighting TD", "status": "to_contact", "score": 77, "country": "GB"}], "counts": {"contacted": 11, "declined": 3, "replied": 1, "deprecated": 78, "to_contact": 780}};
+const LABEL={to_contact:'À contacter',contacted:'Contacté',replied:'A répondu',declined:'Refusé',deprecated:'Périmée'};
+const pill=s=>`<span class="pill"><span class="dot" style="background:var(--st-${s})"></span>${LABEL[s]}</span>`;
+const n=v=>`<span class="num">${v}</span>`; const esc=t=>String(t).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const idx=r=>r.idx?`<span class="mono">${r.idx}</span>`:'';
+// A
+const cols=['to_contact','contacted','replied','declined'];
+A.innerHTML=`<h2>A. Le pipeline, une colonne par statut</h2><p class="lead">On lit l'avancement de gauche à droite ; déplacer une carte, c'est changer son statut.</p><div class="cols">`+cols.map(s=>{const rs=D.rows.filter(r=>r.status===s);return `<div class="col"><h3>${pill(s)}${n(D.counts[s]||0)}</h3>`+rs.slice(0,7).map(r=>`<div class="card" style="--c:var(--st-${s})"><div class="row"><span class="studio">${esc(r.name)}</span>${idx(r)}</div><div class="role">${esc(r.role)}</div><div class="role">score ${n(r.score)}</div></div>`).join('')+`</div>`}).join('')+`</div>`;
+// B
+B.innerHTML=`<h2>B. La table de tri, dense et filtrable</h2><p class="lead">Pour traiter 100 offres par jour : une ligne par offre, des onglets de statut avec leur compte, le score en chiffre.</p><div class="tabs">`+['to_contact','contacted','replied','declined','deprecated'].map((s,i)=>`<span class="pill ${i?'':'on'}"><span class="dot" style="background:var(--st-${s})"></span>${LABEL[s]} ${n(D.counts[s]||0)}</span>`).join('')+`</div><table><tr><th>Index</th><th>Studio</th><th>Poste</th><th class="hide-s">Score</th><th>Statut</th></tr>`+D.rows.map(r=>`<tr><td>${idx(r)||'<span class=role>·</span>'}</td><td>${esc(r.name)}</td><td class="role">${esc(r.role)}</td><td class="hide-s">${n(r.score)}</td><td>${pill(r.status)}</td></tr>`).join('')+`</table>`;
+// C
+const lot=D.rows.filter(r=>r.idx), sent=lot.filter(r=>r.status!=='to_contact').length;
+C.innerHTML=`<h2>C. Le lot du jour, objectif 100</h2><p class="lead">L'écran du matin : le compteur du jour, les cartes du lot avec leur index, et « Copier » pour me renvoyer ce qui est envoyé.</p><div class="stats"><div><b>${sent} / ${lot.length}</b>envoyées dans ce lot</div><div><b>${D.counts.contacted||0}</b>contactés au total</div><div><b>${D.counts.replied||0}</b>réponses</div><div><b>${D.counts.to_contact||0}</b>restent à contacter</div></div><div class="bar"><i style="width:${Math.max(3,100*sent/Math.max(1,lot.length))}%"></i></div><div class="lot">`+lot.map(r=>`<div class="card"><div class="row"><span class="idx">${r.idx}</span>${pill(r.status)}</div><span class="studio">${esc(r.name)}</span><span class="role">${esc(r.role)}</span><div class="row"><span class="role">score ${n(r.score)}</span><button onclick="navigator.clipboard.writeText('${r.idx}');this.textContent='Copié'">Copier ${r.idx}</button></div></div>`).join('')+`</div>`;
+</script></body></html>
